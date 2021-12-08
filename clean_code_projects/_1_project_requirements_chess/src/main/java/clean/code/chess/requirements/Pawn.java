@@ -1,4 +1,4 @@
-package clean.code.chess.requirements;
+package main.java.clean.code.chess.requirements;
 
 public class Pawn {
 
@@ -39,12 +39,53 @@ public class Pawn {
         return this.pieceColor;
     }
 
-    private void setPieceColor(PieceColor value) {
+    public void setPieceColor(PieceColor value) {
         pieceColor = value;
     }
 
+    public void setNewCoordinates(int newX, int newY) {
+        this.setXCoordinate(newX);
+        this.setYCoordinate(newY);
+    }
+
     public void Move(MovementType movementType, int newX, int newY) {
-        throw new UnsupportedOperationException("Need to implement Pawn.Move()");
+       switch (movementType) {
+           case MOVE:
+               if(isLegalMove(newX, newY)) {
+                   setNewCoordinates(newX, newY);
+               }
+               break;
+           case CAPTURE:
+               if(isLegalCapture(newX, newY)) {
+                   setNewCoordinates(newX, newY);
+               }
+               break;
+        }
+    }
+
+    private boolean isLegalMove(int newX, int newY) {
+        if(this.getPieceColor() == PieceColor.WHITE) {
+            return !(this.getXCoordinate() != newX || newY - this.getYCoordinate() != 1);
+        } else {
+            return !(this.getXCoordinate() != newX || this.getYCoordinate() - newY  != 1);
+        }
+
+    }
+
+    private boolean isLegalCapture(int newX, int newY) {
+        if(!chessBoard.isNotOccupiedPosition(newX, newY)) {
+            if(this.getPieceColor() == PieceColor.WHITE) {
+                if(newX == this.getXCoordinate() + 1 && newY - this.getYCoordinate()== 1) {
+                    return true;
+                }
+            } else {
+                if (newX == this.getXCoordinate() - 1 && this.getYCoordinate() - newY == 1) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
