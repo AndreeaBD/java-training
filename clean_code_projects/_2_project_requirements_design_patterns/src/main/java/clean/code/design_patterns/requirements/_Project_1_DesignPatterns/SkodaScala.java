@@ -1,4 +1,4 @@
-package _Project_1_DesignPatterns;
+package main.java.clean.code.design_patterns.requirements._Project_1_DesignPatterns;
 
 public class SkodaScala extends GetPrice {
     private static int standard = 14000;
